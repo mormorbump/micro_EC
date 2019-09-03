@@ -1,0 +1,9 @@
+$('notice').hide();
+
+//#cartのなかのtrが一つ以上存在したら徐々に表示。
+//FIXED:なぜか一回目だけ要素が非表示。コンソールにtypeError => jquery-uiがなかった。
+if ($('#cart tr').length == 1) { $('#cart').show('blind', 1000); }
+
+$('#cart').html("<%=j render @cart %>");
+//FIXED:なぜかanimateメソッド適用されない => jquery-uiがなかった。
+$('#current_item').css({'background-color':'#88ff88'}).animate({'background-color':'#114411'}, 1000);

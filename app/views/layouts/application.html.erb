@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>App</title>
+    <title>Pragprog Booksオンラインストア</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -10,6 +10,41 @@
   </head>
 
   <body class="<%= controller.controller_name %>">
-    <%= yield %>
+    <div id="banner">
+      <%= image_tag("logo.png", size: 40)%>
+      <%= @page_title || "Pragmatic Bookshelf" %>
+    </div>
+
+    <div id="columns">
+      <div id="side">
+        <% if @cart %>
+          <!-- カートに何もない時非表示にしたいが、htmlを直接削除するとjsが効かないので、display: none -->
+          <%= hidden_div_if(@cart.line_items.empty?, id: 'cart') do %>
+          <!-- レイアウト内ではコントローラで設定された@cartインスタンス変数にアクセスできる。 -->
+          <!-- つまり、そのレイアウトから呼び出された部分テンプレート内でも、この変数にアクセスできると言うこと。 -->
+          <!-- とはいえ、それではグローバル変数を渡しているようなもの。結合度が高くなってしまい非常に危険 -->
+            <%=render @cart %>
+          <% end %>
+        <% end %>
+        <ul>
+          <li><%= link_to "ホーム", root_path %></li>
+          <li><a href="#">よくある質問</a></li>
+          <li><a href="#">ニュース</a></li>
+          <li><a href="#">お問い合わせ</a></li>
+        </ul>
+
+        <% if session[:user_id] %>
+          <ul>
+            <li><%= link_to '注文', orders_path %></li>
+            <li><%= link_to '商品', products_path %></li>
+            <li><%= link_to 'ユーザー', users_path %></li>
+          </ul>
+          <%= button_to 'ログアウト', logout_path, method: :delete %>
+        <% end %>
+      </div>
+      <div id="main">
+        <%= yield %>
+      </div>
+    </div>
   </body>
 </html>
