@@ -1,24 +1,55 @@
-# README
+# docker rails template
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Docker template for Rails app or Rails + Webpacker app development.
 
-Things you may want to cover:
+## Use for development
 
-* Ruby version
+This template use [entrykit](https://github.com/progrium/entrykit) to execute `bundle install` on ENTRYPOINT of Docker.
 
-* System dependencies
+No re-build docker image on changing Gemfile because bundled gems is cached in Docker Volume.
 
-* Configuration
+To develop rails app, use following commands.
 
-* Database creation
+```bash
+script/bootstrap
+docker-compose exec rails bash
+```
 
-* Database initialization
+You can execute any commands in docker container.
 
-* How to run the test suite
+## Getting started
 
-* Services (job queues, cache servers, search engines, etc.)
+You can build rails app from template like this.
 
-* Deployment instructions
+```bash
+git clone https://github.com/kawasin73/rails_docker_template.git .
+git checkout origin/base/ruby-2.6.2-rails-5.2.2.1-webpack
+git branch -d master && git checkout -b master
+script/init && script/bootstrap
 
-* ...
+docker-compose up -d
+docker-compose exec rails bash
+# access to http://localhost:3000
+```
+
+### built branch
+
+`ruby-RUBY_VERSION-rails-RAILS_VERSION` branch has built application.
+
+Please initialize secrets and start to development.
+
+```bash
+git clone https://github.com/kawasin73/rails_docker_template.git .
+git checkout origin/ruby-2.6.2-rails-5.2.2.1-webpack
+git branch -d master && git checkout -b master
+script/bootstrap
+# initialize credentials.yml.enc
+docker-compose run --rm rails bin/rails credentials:edit
+```
+
+- [ruby-2.6.2-rails-5.2.2.1](https://github.com/kawasin73/rails_docker_template/tree/ruby-2.6.2-rails-5.2.2.1)
+- [ruby-2.6.2-rails-5.2.2.1-webpack](https://github.com/kawasin73/rails_docker_template/tree/ruby-2.6.2-rails-5.2.2.1-webpack)
+
+## License
+
+MIT
