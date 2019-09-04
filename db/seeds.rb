@@ -17,3 +17,17 @@ Product.create(title: 'Programming Ruby 1.9',
           </p>},
     image_url: 'ruby.jpg',
     price: 49.95)
+
+    
+Product.create(title: 'node',
+    description:
+        %{<p>
+            node is good
+          </p>},
+    image_url: 'ruby.jpg',
+    price: 60.95)
+
+
+User.delete_all
+
+User.create(name: "aaaaaa", password: "aaaaaa", password_confirmation: "aaaaaa")

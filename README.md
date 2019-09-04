@@ -1,3 +1,8 @@
+# test seed
+User 1
+Product 2
+run `rails db:seed`
+
 # docker rails template
 
 Docker template for Rails app or Rails + Webpacker app development.
