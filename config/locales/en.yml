@@ -30,4 +30,23 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  thanks: "tahnk you!"
+  layouts:
+    application:
+      title: "ECsite！"
+      home: "Home"
+      questions: "Questions"
+      news: "News"
+      contact: "Contact"
+  store: # コントローラ名
+    index: # アクション名
+      title_html: "Your Catalog"  # t(.title_html)
+      add_html: "Add to Cart"
+  number:
+    currency:
+      format:
+        unit: "$"
+        precision: 2
+        separator: "."
+        delimiter: ","
+        format: "%u%n"

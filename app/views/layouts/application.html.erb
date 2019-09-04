@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Pragprog Booksオンラインストア</title>
+    <title>ECオンラインサイト</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -11,6 +11,11 @@
 
   <body class="<%= controller.controller_name %>">
     <div id="banner">
+      <%= form_with url: root_path, method: :get, class: "locale" do |f| %>
+          <%= select_tag :set_locale, options_for_select(LANGUAGES, I18n.locale.to_s), onchange: "this.form.submit()" %>
+          <%= submit_tag "submit" %>
+          <%= javascript_tag "$('.locale input').hide()" %>
+      <% end %>
       <%= image_tag("logo.png", size: 40)%>
       <%= @page_title || "Pragmatic Bookshelf" %>
     </div>
@@ -27,10 +32,10 @@
           <% end %>
         <% end %>
         <ul>
-          <li><%= link_to "ホーム", root_path %></li>
-          <li><a href="#">よくある質問</a></li>
-          <li><a href="#">ニュース</a></li>
-          <li><a href="#">お問い合わせ</a></li>
+          <li><%= link_to t('.home'), root_path %></li>
+          <li><a href="#"><%= t('.questions') %></a></li>
+          <li><a href="#"><%= t('.news') %></a></li>
+          <li><a href="#"><%= t('.contact') %></a></li>
         </ul>
 
         <% if session[:user_id] %>
