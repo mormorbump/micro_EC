@@ -1,0 +1,38 @@
+es:
+  thanks: "アリアgむsあ"
+  layouts:
+    application:
+      title: "ECsite！"
+      home: "Inicio"
+      questions: "Prequntas"
+      news: "Noticias"
+      contact: "Contacto"
+  store: # コントローラ名
+    index: # アクション名
+      title_html: "Su Cat&aacute;"  # t(.title_html) _htmlとつけると、html実体名も使用できる。
+      add_html: "A&ntilde;adir al Carrito"
+  number:
+    currency:
+      format:
+        unit: "$US" # 単位
+        precision: 2 # precision
+        separator: "," # 小数点の区切り
+        delimiter: "." # ３桁ごとの区切り
+        format: "%n&nbsp;%u" # $nbsp 改行なしスペース(値が複数に分かれるのを防ぐ。)
+  activerecord:
+    models:
+      product: "商品"
+    attributes:
+      product:
+        title: "商品めい"
+        price: "金"
+    errors:
+      messages:
+        inclusion: "含まれとるで"
+        blank: "空白あるで"
+  errors:
+    template:
+      body: "わーお"
+      heawder:
+        one: "%{model}のエラー一つ"
+        other: "%{count} こエラーあるよ、%{model}のなかに"

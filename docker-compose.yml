@@ -11,13 +11,6 @@ services:
     command: ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
     env_file:
       - "./.env.dev"
-    # webpackerのドキュメントに書いてある環境変数でport forwardingする前のポートをrailsコンテナに指定しなければならない。
-    # 下にあるwebpackerコンテナでは WEBPACKER_DEV_SERVER_PORT:3035 にする。
-    # https://github.com/rails/webpacker/blob/227661b546701e107213aa9b6f83451bc89cf7d5/docs/cloud9.md
-    # https://blog.piyo.tech/posts/2018-10-14-change-webpacker-dev-server-port/
-    environment:
-      - "WEBPACKER_DEV_SERVER_HOST=webpack"
-      - "WEBPACKER_DEV_SERVER_PORT=4035"
     volumes:
       - ".:/app"
       # マウントを上書き
@@ -28,29 +21,13 @@ services:
     # 他のサービスやコンテナから全てマウントする
     volumes_from:
       - data
+    # ホスト(自分のPC)で4000にアクセスすると、向こうの3000に行く。なのでlocalhost:4000でアクセス。
     ports:
-      - "3000:3000"
+      - "4000:3000"
     depends_on:
       - db
     tty: true
     stdin_open: true
-
-  # config/webpack/environment.jsに下のurlの記述をしないとまじで詰む。
-  # https://qiita.com/mattan/items/7cac136e3d8c9a5536d3#_reference-324cbd5b2805407a7cc0
-  # portには、railsコンテナで指定したWEBPACKER_DEV_SERVER_PORT: 3035とするのに注意。
-  webpack:
-    <<: *app_base
-    # このコマンドでvueのファイルを自動コンパイル(変更されたタイミングで)できる。
-    command: "bin/webpack-dev-server"
-    environment:
-      - "WEBPACKER_DEV_SERVER_HOST=0.0.0.0"
-    # WEBPACKER_DEV_SERVER_PORTと等しくする。
-    ports:
-      - "4035:3035"
-    depends_on:
-      - db
-    tty: false
-    stdin_open: false
 
   db:
     # 実行時に再起動するかどうか(今回はdockerをビルド時や立ち上げる際にMYSQLを再起動、という意味)
@@ -62,7 +39,7 @@ services:
       - data
     # 左側をWEBPACKER_DEV_SERVER_PORTと同じにする。
     ports:
-      - "4306:3306"
+      - "5306:3306"
 
   # dataコンテナを用いてmysql, gem, node_moduleなどをコンテナ内にキャッシュしておくことでbuild時の再インストールを防ぐ。
   data:
@@ -70,12 +47,9 @@ services:
     volumes:
       - db:/var/lib/mysql
       - bundle:/usr/local/bundle
-      - node_modules:/myapp/node_modules
 
 volumes:
   db:
     driver: local
   bundle:
-    driver: local
-  node_modules:
     driver: local
